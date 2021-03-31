@@ -26,3 +26,15 @@ Route::group([ 'namespace' => 'App\Http\Controllers\Blog', 'prefix' => 'blog'], 
     Route::resource('posts', PostController::class)->names('blog.posts');
 });
 
+//Адмінка
+$groupData = [
+    'namespace' => 'App\Http\Controllers\Blog\Admin',
+    'prefix' => 'admin/blog',
+];
+Route::group($groupData, function () {
+    //BlogCategory
+    $methods = ['index','edit','store','update','create',];
+    Route::resource('categories', CategoryController::class)
+        ->only($methods)
+        ->names('blog.admin.categories');
+});
