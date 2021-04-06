@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Blog\Admin;
 //use App\Http\Controllers\Controller;
 use App\Models\BlogCategory;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
+use App\Http\Requests\BlogCategoryCreateRequest;
+use App\Http\Requests\BlogCategoryUpdateRequest;
 
 class CategoryController extends BaseController
 {
@@ -26,11 +28,14 @@ class CategoryController extends BaseController
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
-        //dd(__METHOD__);
+        $item = new BlogCategory();
+        $categoryList = BlogCategory::all();
+
+        return view('blog.admin.categories.edit', compact('item', 'categoryList'));//dd(__METHOD__);
         //
     }
 
@@ -40,8 +45,26 @@ class CategoryController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
+        $data = $request->input(); //отримаємо масив даних, які надійшли з форми
+        if (empty($data['slug'])) { //якщо псевдонім порожній
+            $data['slug'] = Str::slug($data['title']); //генеруємо псевдонім
+        }
+
+        $item = (new BlogCategory())->create($data); //створюємо об'єкт і додаємо в БД
+
+        if ($item) {
+            return redirect()
+                ->route('blog.admin.categories.edit', [$item->id])
+                ->with(['success' => 'Успішно збережено']);
+        } else {
+            return back()
+                ->withErrors(['msg' => 'Помилка збереження'])
+                ->withInput();
+        }
+
+
         //dd(__METHOD__);
         //
     }
@@ -82,7 +105,7 @@ class CategoryController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BlogCategoryUpdateRequest $request, $id)
     {
         $item = BlogCategory::find($id);
         if (empty($item)) { //якщо ід не знайдено
@@ -99,6 +122,9 @@ class CategoryController extends BaseController
             return redirect()
                 ->route('blog.admin.categories.edit', $item->id)
                 ->with(['success' => 'Успішно збережено']);
+
+
+
         } else {
             return back()
                 ->with(['msg' => 'Помилка збереження'])

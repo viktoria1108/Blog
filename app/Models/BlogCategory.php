@@ -16,4 +16,8 @@ class BlogCategory extends Model
             'parent_id',
             'description',
         ];
+
+    public static function paginate(int $int)
+    {
+    }
 }
