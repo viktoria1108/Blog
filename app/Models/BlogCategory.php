@@ -20,4 +20,8 @@ class BlogCategory extends Model
     public static function paginate(int $int)
     {
     }
+
+    public function create($data)
+    {
+    }
 }
