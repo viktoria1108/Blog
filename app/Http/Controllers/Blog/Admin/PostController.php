@@ -54,6 +54,7 @@ class PostController extends BaseController
      */
     public function create()
     {
+
         //
     }
 
@@ -65,6 +66,8 @@ class PostController extends BaseController
      */
     public function store(Request $request)
     {
+
+
         //
     }
 
