@@ -154,6 +154,11 @@ class CategoryController extends BaseController
                 ->route('blog.admin.categories.edit', $item->id)
                 ->with(['success' => 'Успішно збережено']);
 
+            if (empty($data['slug'])) {
+                $data['slug'] = Str::slug($data['title']);
+            }
+
+
 
 
         } else {
