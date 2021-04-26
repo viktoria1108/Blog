@@ -93,6 +93,7 @@ class BlogPostObserver
 
 
 
+
     /**
      * Handle the BlogPost "created" event.
      *

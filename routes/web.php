@@ -26,6 +26,13 @@ Route::group(['prefix' => 'digging_deeper'], function () {
 
         ->name('digging_deeper.collections');
 
+
+    Route::get('process-video', 'DiggingDeeperController@processVideo')
+        ->name('digging_deeper.processVideo');
+
+    Route::get('prepare-catalog', 'DiggingDeeperController@prepareCatalog')
+        ->name('digging_deeper.prepareCatalog');
+
 });
 
 
@@ -54,6 +61,7 @@ Route::group($groupData, function () {
     Route::resource('posts', PostController::class)
         ->except(['show'])                               //не робити маршрут для метода show
         ->names('blog.admin.posts');
+
 
 
 
